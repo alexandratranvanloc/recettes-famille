@@ -221,6 +221,10 @@ footer{margin-top:64px;padding-top:18px;border-top:1px solid var(--line);font-si
 .fiche-bar .eveil{margin-block:4px}
 .eveil{display:inline-flex;white-space:nowrap;align-items:center;gap:8px;font:inherit;font-weight:700;font-size:14px;padding:7px 16px;border-radius:999px;border:1.5px solid var(--accent);background:var(--bg);color:var(--accent-strong);cursor:pointer}
 .eveil[aria-pressed="true"]{background:var(--accent);color:var(--on-accent)}
+/* nombre de personnes réglable en haut de la fiche */
+.facts .fact-pers .stepper{gap:6px}
+.facts .fact-pers .pm{width:30px;height:30px;font-size:18px}
+.facts .fact-pers .nb{min-width:6.6em;font-family:var(--hand);font-weight:400;font-size:15px;letter-spacing:.04em;color:var(--ink)}
 
 /* téléphone et application installée */
 html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
@@ -1288,34 +1292,33 @@ const RECETTES = [
     source: { nom: "Cookomix", url: "https://www.cookomix.com/recettes/moelleux-au-chocolat-coeur-fondant-thermomix/" }
   },
   {
-    id: "kanelbullar",
+    id: "cinnamon-rolls",
     origine: { pays: "Suède", lieu: "Stockholm", lat: 59.33, lon: 18.07, iso: "752" }, // où flécher le plat sur la Terre
-    titre: "Kanelbullar",
-    deco: ["pain", "tasse", "oeuf", "fouet", "pain", "cuillere"], // petits dessins en fond de fiche
-    intro: "Les brioches suédoises à la cannelle, nouées en petits nœuds. La cardamome dans la pâte compte tout autant que la cannelle dans la garniture.",
-    photo: "photos/kanelbullar.jpg", // photo générée sur fal.ai (FLUX Pro Ultra, style sombre) le 13/11/2026
-    personnes: 18, // 15 à 20 kanelbullar
-    temps: "40 min de préparation, 1 h 15 à 1 h 45 de pousse, 10 min de cuisson",
-    difficulte: "Difficile",
+    titre: "Cinnamon rolls",
+    deco: ["pain", "beurre", "tasse", "fouet", "pain", "cuillere"], // petits dessins en fond de fiche
+    intro: "Des roulés à la cannelle en version rapide : une pâte à la levure chimique, sans temps de pousse, et un glaçage express versé tout chaud.",
+    photo: "photos/cinnamon-rolls.jpg", // photo générée sur fal.ai (FLUX Pro Ultra, style sombre) le 13/11/2026
+    personnes: 6, // 5 à 6 personnes, 8 à 10 rolls
+    temps: "15 min de préparation, 20 à 25 min de cuisson",
+    difficulte: "Facile",
     type: "Desserts",
     occasion: ["Goûter"],
     cuisson: ["Four"],
     ingredients: [
-      { titre: "Pour la pâte :", liste: [[250, "ml de lait tiède"], [75, "g de beurre"], [25, "g de levure de boulanger fraîche (ou 1 sachet de levure sèche)"], [500, "g de farine de blé (T45 ou T55)"], [75, "g de sucre en poudre"], [1, "cuillère à café bombée de cardamome moulue", "cuillères à café bombées de cardamome moulue"], [0.5, "cuillère à café de sel", "cuillères à café de sel"]] },
-      { titre: "Pour la garniture :", liste: [[75, "g de beurre mou (à température ambiante)"], [50, "g de sucre (blanc ou cassonade)"], "1 à 2 cuillères à soupe de cannelle en poudre"] },
-      { titre: "Pour la finition :", liste: [[1, "œuf battu", "œufs battus"], "Du sucre perlé"] }
+      { titre: "Pour la pâte rapide :", liste: [[300, "g de farine de blé"], [1, "sachet de levure chimique (environ 11 g)", "sachets de levure chimique (environ 11 g)"], [50, "g de sucre en poudre"], "1 pincée de sel", [50, "g de beurre fondu"], [150, "ml de lait tiède"]] },
+      { titre: "Pour la garniture :", liste: [[40, "g de beurre très mou (en pommade)"], [50, "g de sucre roux (ou de cassonade)"], "1,5 à 2 cuillères à soupe de cannelle en poudre"] },
+      { titre: "Pour le glaçage express (facultatif, mais tellement bon) :", liste: [[60, "g de sucre glace"], "1 à 2 cuillères à soupe de lait ou de fromage frais (type Philadelphia)"] }
     ],
     etapes: [
-      "Fais fondre le beurre dans une petite casserole, puis ajoute le lait. Le mélange doit être tiède, environ 37 °C. Émiette la levure fraîche dans un grand bol et verse le liquide tiède dessus en remuant pour la dissoudre.",
-      "Ajoute le sucre, la cardamome, le sel et la majeure partie de la farine. Pétris environ 10 minutes à la main (ou 5 minutes au robot), jusqu'à ce que la pâte soit lisse, élastique et se détache des parois du bol.",
-      "Couvre le bol d'un torchon propre et laisse la pâte doubler de volume 45 à 60 minutes, dans un endroit tiède et à l'abri des courants d'air.",
-      "Pendant que la pâte lève, mélange vigoureusement le beurre mou, le sucre et la cannelle dans un petit bol, jusqu'à obtenir une pâte à tartiner homogène.",
-      "Dégaze la pâte sur un plan de travail légèrement fariné. Étale-la au rouleau en un grand rectangle d'environ 3 mm d'épaisseur, puis tartine la garniture à la cannelle uniformément sur toute la surface.",
-      "Plie le rectangle en deux dans le sens de la longueur et coupe des lanières de 1,5 à 2 cm de large. Prends chaque lanière, étire-la un peu, entortille-la sur elle-même puis enroule-la autour de tes doigts pour former un petit nœud. Rentre l'extrémité en dessous.",
-      "Pose les nœuds bien espacés sur des plaques recouvertes de papier sulfurisé. Couvre d'un torchon et laisse reposer encore 30 à 45 minutes, jusqu'à ce qu'ils soient bien gonflés.",
-      "Préchauffe le four à 220 °C. Badigeonne délicatement chaque brioche d'œuf battu et saupoudre généreusement de sucre perlé.",
-      "Enfourne au milieu du four 8 à 10 minutes, jusqu'à ce qu'ils soient bien dorés."
-    ]
+      "Prépare la pâte : dans un saladier, mélange la farine, la levure chimique, le sucre et le sel. Ajoute le beurre fondu et le lait tiède. Mélange d'abord à la cuillère, puis pétris rapidement à la main 1 à 2 minutes, juste le temps d'obtenir une boule souple et homogène. Pas besoin de pétrir longtemps.",
+      "Sur un plan de travail légèrement fariné, étale la pâte au rouleau en un grand rectangle d'environ 30 × 40 cm.",
+      "Tartine le beurre mou sur tout le rectangle, puis saupoudre généreusement de sucre roux et de cannelle.",
+      "Roule la pâte bien serrée dans le sens de la longueur pour former un long boudin. Coupe-le en 8 à 10 tronçons égaux.",
+      "Préchauffe le four à 180 °C. Range les rolls dans un plat à gratin beurré ou couvert de papier cuisson, en laissant un tout petit espace entre eux.",
+      "Enfourne 20 à 25 minutes, jusqu'à ce qu'ils soient bien dorés.",
+      "Pendant la cuisson, mélange le sucre glace avec le lait (ou le fromage frais) jusqu'à obtenir un glaçage qui nappe la cuillère. Verse-le sur les rolls dès la sortie du four, quand ils sont encore chauds."
+    ],
+    secret: "Pour couper les tronçons bien net sans écraser les rouleaux, glisse un fil dentaire non parfumé (ou du fil de cuisine) sous le boudin, croise les deux bouts par-dessus et tire."
   },
   {
     id: "lasagnes-bolognaise-mamie",
@@ -2191,17 +2194,23 @@ function fiche(r) {
     const ul = el("ul"); g.liste.forEach(i => { const li = el("li"); lignes.push([li, i]); ul.append(li); }); ingr.append(ul);
   }
   let n = r.personnes;
-  const moins = el("button", { class: "pm", type: "button", id: "pers-moins", "aria-label": "Une personne de moins", text: "−" });
-  const plus = el("button", { class: "pm", type: "button", id: "pers-plus", "aria-label": "Une personne de plus", text: "+" });
-  const nb = el("output", { class: "nb", id: "pers-nb", "aria-live": "polite" });
+  // deux sélecteurs synchronisés : en haut de la fiche (à la place du nombre de personnes) et dans les ingrédients
+  const steppers = [0, 1].map(k => {
+    const moins = el("button", { class: "pm", type: "button", "aria-label": "Une personne de moins", text: "−" });
+    const plus = el("button", { class: "pm", type: "button", "aria-label": "Une personne de plus", text: "+" });
+    const nb = el("output", { class: "nb", "aria-live": k ? "polite" : "off" });
+    moins.onclick = () => { n--; maj(); }; plus.onclick = () => { n++; maj(); };
+    return { moins, plus, nb, box: el("span", { class: "stepper" }, moins, nb, plus) };
+  });
   const base = el("button", { class: "reset", type: "button", text: `Revenir à ${r.personnes}` });
   const maj = () => {
     for (const [li, i] of lignes) li.textContent = texteIngr(i, n / r.personnes);
-    nb.textContent = n + (n > 1 ? " personnes" : " personne");
-    moins.disabled = n <= 1; plus.disabled = n >= 30; base.hidden = n === r.personnes;
+    for (const s of steppers) { s.nb.textContent = n + (n > 1 ? " personnes" : " personne"); s.moins.disabled = n <= 1; s.plus.disabled = n >= 30; }
+    base.hidden = n === r.personnes;
   };
-  moins.onclick = () => { n--; maj(); }; plus.onclick = () => { n++; maj(); }; base.onclick = () => { n = r.personnes; maj(); };
-  ingr.append(el("div", { class: "pers" }, el("span", { class: "pers-l", text: "Quantités pour" }), el("span", { class: "stepper" }, moins, nb, plus), base));
+  base.onclick = () => { n = r.personnes; maj(); };
+  const persHaut = el("li", { class: "fact-pers" }, el("span", { class: "dot", html: ICONS.pers }), steppers[0].box);
+  ingr.append(el("div", { class: "pers" }, el("span", { class: "pers-l", text: "Quantités pour" }), steppers[1].box, base));
   maj();
   const ol = el("ol"); r.etapes.forEach(s => ol.append(el("li", { text: s })));
   const prep = el("section", { class: "prep" }, el("h2", { text: "La préparation" }), r.etapes.length ? ol : el("p", { class: "todo", text: "Les étapes de cette recette ne sont pas encore écrites ici. En attendant, suis la recette d'origine (lien ci-dessous)." }));
@@ -2231,7 +2240,7 @@ function fiche(r) {
     el("article", {},
       el("div", { class: "hero" }, pic(r),
         el("div", { class: "hero-text" }, deco(r, "titre"), el("h1", { text: r.titre }), el("p", { class: "lead", text: r.intro }),
-          el("ul", { class: "facts" }, fact("pers", r.personnes + " personnes"), fact("temps", r.temps), fact("niveau", r.difficulte)), tags)),
+          el("ul", { class: "facts" }, persHaut, fact("temps", r.temps), fact("niveau", r.difficulte)), tags)),
       el("div", { class: "body" }, ingr, prep))
   );
   document.title = r.titre + " · Recettes";
