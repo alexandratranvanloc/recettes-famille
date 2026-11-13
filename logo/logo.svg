@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -30 410 400" width="820" height="800">
+  <defs>
+    <path id="star" d="M0 -10 L2.9 -4 L9.5 -3.1 L4.7 1.5 L5.9 8.1 L0 5 L-5.9 8.1 L-4.7 1.5 L-9.5 -3.1 L-2.9 -4 Z"/>
+    <pattern id="motif" width="22" height="22" patternUnits="userSpaceOnUse">
+      <rect width="22" height="22" fill="#2F8F8A"/>
+      <path d="M5 6 q4 -5 8 0 q-4 5 -8 0z" fill="#F4E3C3"/>
+      <circle cx="17" cy="16" r="2.2" fill="#F2B24C"/>
+      <circle cx="6" cy="17" r="1.4" fill="#E04A5F"/>
+    </pattern>
+  </defs>
+  <g stroke="#1A1514" stroke-width="2" stroke-linejoin="round">
+    <use href="#star" transform="translate(48 40) scale(2.2)" fill="#5B2A9E"/>
+    <use href="#star" transform="translate(30 150) scale(2.6)" fill="#F2A03A"/>
+    <use href="#star" transform="translate(150 50) scale(1.1)" fill="#F2A03A"/>
+    <use href="#star" transform="translate(60 230) scale(2.4)" fill="#8E9A2E"/>
+    <use href="#star" transform="translate(370 60) scale(2.4)" fill="#4A8BE8"/>
+    <use href="#star" transform="translate(285 75) scale(1.5)" fill="#D6337A"/>
+    <use href="#star" transform="translate(392 120) scale(1.2)" fill="#5B2A9E"/>
+    <use href="#star" transform="translate(140 225) scale(1.9)" fill="#4A8BE8"/>
+    <use href="#star" transform="translate(28 300) scale(1.2)" fill="#D6337A"/>
+    <use href="#star" transform="translate(255 40) scale(1)" fill="#4A8BE8"/>
+  </g>
+
+  <g stroke="#1A1514" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">
+    <!-- cheveux, derrière -->
+    <path d="M200 58 C126 58 112 120 118 180 C122 230 108 270 100 318 L300 318 C292 270 278 230 282 180 C288 120 274 58 200 58 Z" fill="#1E1A1A"/>
+
+    <!-- corps : blouse à motifs et tablier -->
+    <path d="M104 340 C104 282 140 252 200 252 C260 252 296 282 296 340 Z" fill="url(#motif)"/>
+    <path d="M164 340 V284 C164 278 168 274 174 274 H226 C232 274 236 278 236 284 V340 Z" fill="#E07A2E"/>
+    <path d="M172 274 L180 250 M228 274 L220 250" fill="none" stroke="#E07A2E" stroke-width="8"/>
+    <path d="M178 300 H222" fill="none" stroke-width="3"/>
+
+    <!-- cou -->
+    <path d="M184 206 V254 Q200 262 216 254 V206 Z" fill="#E2AE84"/>
+
+    <!-- visage -->
+    <path d="M200 76 C246 76 264 112 262 150 C260 196 236 222 200 222 C164 222 140 196 138 150 C136 112 154 76 200 76 Z" fill="#E9BC92"/>
+
+    <!-- mèches devant, raie sur le côté -->
+    <path d="M136 156 C130 108 152 66 204 64 C246 62 270 96 266 150 C256 120 240 98 214 92 C192 108 166 112 146 126 C142 136 138 146 136 156 Z" fill="#1E1A1A"/>
+    <path d="M140 140 C128 190 134 240 124 300 L150 300 C150 250 148 200 150 150 Z" fill="#1E1A1A"/>
+    <path d="M262 140 C272 190 266 240 276 300 L250 300 C250 250 252 200 250 150 Z" fill="#1E1A1A"/>
+
+    <!-- sourcils, yeux rieurs -->
+    <path d="M160 128 Q174 120 188 126 M212 126 Q226 120 240 128" fill="none" stroke-width="3.5"/>
+    <path d="M162 146 Q175 134 188 146 M212 146 Q225 134 238 146" fill="none" stroke-width="4.5"/>
+    <path d="M160 149 l-5 3 M240 149 l5 3" fill="none" stroke-width="2.5"/>
+
+    <!-- joues -->
+    <ellipse cx="160" cy="170" rx="13" ry="7" fill="#F08A8A" stroke="none" opacity=".55"/>
+    <ellipse cx="240" cy="170" rx="13" ry="7" fill="#F08A8A" stroke="none" opacity=".55"/>
+
+    <!-- nez -->
+    <path d="M196 160 Q200 168 205 163" fill="none" stroke-width="3"/>
+
+    <!-- grand sourire -->
+    <path d="M170 178 Q200 184 230 178 Q226 212 200 214 Q174 212 170 178 Z" fill="#8E1F1F"/>
+    <path d="M174 180 Q200 185 226 180 L224 190 Q200 194 176 190 Z" fill="#FFFFFF" stroke-width="2.5"/>
+    <path d="M186 206 Q200 197 214 206 Q200 213 186 206 Z" fill="#E2595B" stroke="none"/>
+
+    <!-- bras gauche + cuillère en bois -->
+    <path d="M86 300 L116 128" stroke="#1A1514" stroke-width="12"/>
+    <path d="M86 300 L116 128" stroke="#C98F5B" stroke-width="6"/>
+    <ellipse cx="119" cy="112" rx="13" ry="20" transform="rotate(10 119 112)" fill="#E3B67E"/>
+    <path d="M122 322 L98 262" stroke="#1A1514" stroke-width="34"/>
+    <path d="M122 322 L98 262" stroke="#E9BC92" stroke-width="26"/>
+    <path d="M84 238 C78 252 86 270 102 270 C116 270 120 254 114 240 Z" fill="#E9BC92"/>
+    <path d="M86 244 h26 M86 252 h28 M88 260 h24" fill="none" stroke-width="2.5"/>
+
+    <!-- bras droit + caquelon fumant -->
+    <path d="M278 322 L304 262" stroke="#1A1514" stroke-width="34"/>
+    <path d="M278 322 L304 262" stroke="#E9BC92" stroke-width="26"/>
+    <path d="M308 250 L326 234" stroke="#1A1514" stroke-width="14"/>
+    <path d="M308 250 L326 234" stroke="#C0392B" stroke-width="8"/>
+    <path d="M320 206 H392 V222 C392 252 320 252 320 222 Z" fill="#D9372C"/>
+    <ellipse cx="356" cy="206" rx="36" ry="9" fill="#F7D154"/>
+    <path d="M342 190 q-6 -9 0 -18 M358 186 q-6 -9 0 -18 M374 190 q-6 -9 0 -18" fill="none" stroke-width="2.5"/>
+    <path d="M292 254 C290 240 304 234 314 240 C322 246 320 264 306 268 C296 270 292 262 292 254 Z" fill="#E9BC92"/>
+    <path d="M296 246 h18 M294 254 h22 M296 262 h18" fill="none" stroke-width="2.5"/>
+  </g>
+</svg>
