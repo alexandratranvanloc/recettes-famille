@@ -2186,8 +2186,6 @@ function fiche(r) {
   document.getElementById("search-box").hidden = true;
   // une virgule dans le texte = passage à la ligne (préparation, puis cuisson)
   const fact = (ic, txt) => { const s = el("span", { class: "fl" }); String(txt).split(", ").forEach(l => s.append(el("span", { text: l }))); return el("li", {}, el("span", { class: "dot", html: ICONS[ic] }), s); };
-  const tags = el("ul", { class: "tags", "aria-label": "Catégories" });
-  for (const t of [r.type, r.origine && "Origine : " + [r.origine.lieu, r.origine.pays].filter(Boolean).join(", "), ...vals(r, "cuisson"), ...vals(r, "occasion"), r.vientDe && "Recette de " + r.vientDe].filter(Boolean)) tags.append(el("li", { text: t }));
   const ingr = el("section", { class: "ingr" }, el("h2", { text: "Liste des ingrédients :" })), lignes = [];
   for (const g of r.ingredients) {
     if (g.titre) ingr.append(el("p", { text: g.titre }));
@@ -2240,7 +2238,7 @@ function fiche(r) {
     el("article", {},
       el("div", { class: "hero" }, pic(r),
         el("div", { class: "hero-text" }, deco(r, "titre"), el("h1", { text: r.titre }), el("p", { class: "lead", text: r.intro }),
-          el("ul", { class: "facts" }, persHaut, fact("temps", r.temps), fact("niveau", r.difficulte)), tags)),
+          el("ul", { class: "facts" }, persHaut, fact("temps", r.temps), fact("niveau", r.difficulte)))),
       el("div", { class: "body" }, ingr, prep))
   );
   document.title = r.titre + " · Recettes";
