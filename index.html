@@ -76,11 +76,23 @@ a{color:var(--accent-strong)}
 .filters .n{color:var(--ink-soft);font-size:13px}
 .reset{align-self:flex-start;font:inherit;font-size:14px;background:none;border:0;padding:0;color:var(--accent-strong);text-decoration:underline;cursor:pointer}
 .filtrer{display:none}
+.filters-tete,.voile{display:none}
 @media (max-width:820px){
   .filtrer{display:inline-flex;align-items:center;gap:8px;justify-self:start;font:inherit;font-weight:700;font-size:15px;padding:9px 18px;border-radius:999px;border:1.5px solid var(--accent);background:var(--bg);color:var(--accent-strong);cursor:pointer}
   .filtrer[aria-expanded="true"]{background:var(--accent);color:var(--on-accent)}
-  .filters{display:none;gap:16px;background:var(--panel);border-radius:18px;padding:16px}
-  .filters.ouvert{display:flex}
+  /* sur téléphone : panneau qui monte du bas, par-dessus la page */
+  .filters{display:none;position:fixed;left:0;right:0;bottom:0;z-index:20;max-height:82vh;max-height:82dvh;overflow-y:auto;overscroll-behavior:contain;gap:16px;background:var(--panel);border-radius:22px 22px 0 0;padding:0 18px;box-shadow:0 -8px 30px rgba(0,0,0,.25)}
+  .filters.ouvert{display:flex;animation:monte .22s ease-out}
+  @keyframes monte{from{transform:translateY(40%);opacity:.4}to{transform:none;opacity:1}}
+  .voile{display:block;position:fixed;inset:0;z-index:19;background:rgba(0,0,0,.4)}
+  .voile[hidden]{display:none}
+  html.panneau-ouvert{overflow:hidden}
+  .filters-tete{display:flex;position:sticky;top:0;z-index:1;align-items:center;justify-content:space-between;background:var(--panel);padding:16px 0 10px;border-bottom:1px solid var(--line)}
+  .filters-tete b{font-family:var(--display);font-weight:400;font-size:26px;color:var(--accent)}
+  .fermer{width:40px;height:40px;border-radius:50%;border:0;background:var(--line);color:var(--ink);font:700 22px/1 var(--body);cursor:pointer;display:grid;place-items:center}
+  .filters-pied{position:sticky;bottom:0;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--panel);padding:12px 0 calc(14px + env(safe-area-inset-bottom));border-top:1px solid var(--line)}
+  .filters-pied .reset{align-self:center}
+  .voir{flex:1;max-width:260px;padding:12px 20px;font-size:16px}
   .filters legend{font-size:15px;text-decoration:none;margin-bottom:6px}
   .filters .opts{display:flex;flex-wrap:wrap;gap:8px}
   .filters label{position:relative;gap:5px;font-size:14px;padding:5px 12px;border-radius:999px;border:1.5px solid var(--line);background:var(--bg)}
@@ -2116,29 +2128,54 @@ function accueil() {
   // sur mobile, les filtres sont repliés derrière ce bouton
   const ouvrir = el("button", { class: "filtrer", type: "button", "aria-controls": "filtres" });
   const majOuvrir = () => { const n = Object.values(actifs).reduce((t, s) => t + s.size, 0); ouvrir.textContent = "Filtrer" + (n ? " (" + n + ")" : ""); ouvrir.setAttribute("aria-expanded", filtresOuverts); };
-  ouvrir.addEventListener("click", () => { filtresOuverts = !filtresOuverts; side.classList.toggle("ouvert", filtresOuverts); majOuvrir(); });
+  const voile = el("div", { class: "voile", hidden: "" });
+  const mobile = matchMedia("(max-width:820px)");
+  const montrer = (v, versResultats) => {
+    filtresOuverts = v; side.classList.toggle("ouvert", v); majOuvrir();
+    voile.hidden = !(v && mobile.matches);
+    document.documentElement.classList.toggle("panneau-ouvert", v && mobile.matches);
+    if (!v && versResultats) resultats.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+  ouvrir.addEventListener("click", () => montrer(!filtresOuverts));
+  voile.addEventListener("click", () => montrer(false, true));
+  side.addEventListener("keydown", e => { if (e.key === "Escape") { montrer(false); ouvrir.focus(); } });
+  // en-tête du panneau (téléphone) : titre + croix
+  const fermer = el("button", { class: "fermer", type: "button", "aria-label": "Fermer les filtres", text: "×" });
+  fermer.addEventListener("click", () => montrer(false, true));
+  side.append(el("div", { class: "filters-tete" }, el("b", { text: "Filtrer" }), fermer));
   majOuvrir();
   for (const [k, titre] of FILTRES) {
     const opts = el("div", { class: "opts" }), fs = el("fieldset", {}, el("legend", { text: titre }), opts);
     const tous = [...new Set(RECETTES.flatMap(r => vals(r, k)))].filter(v => !SEULEMENT[k] || SEULEMENT[k].includes(v)).sort((a, b) => a.localeCompare(b, "fr"));
     tous.forEach((v, i) => {
       const cb = el("input", { type: "checkbox", id: `f-${k}-${i}` }); cb.checked = actifs[k].has(v);
-      cb.addEventListener("change", () => { cb.checked ? actifs[k].add(v) : actifs[k].delete(v); majOuvrir(); grille(box, count); });
+      cb.addEventListener("change", () => { cb.checked ? actifs[k].add(v) : actifs[k].delete(v); majOuvrir(); grille(box, count); majVoir(); });
       const n = RECETTES.filter(r => vals(r, k).includes(v)).length;
       opts.append(el("label", { for: cb.id }, cb, el("span", { text: v }), el("span", { class: "n", text: "(" + n + ")" })));
     });
     side.append(fs);
   }
   const reset = el("button", { class: "reset", type: "button", text: "Tout afficher" });
-  reset.addEventListener("click", () => { for (const k in actifs) actifs[k].clear(); q.value = ""; accueil(); });
-  side.append(reset);
-  q.oninput = () => grille(box, count);
+  reset.addEventListener("click", () => {
+    for (const k in actifs) actifs[k].clear(); q.value = "";
+    side.querySelectorAll("input[type=checkbox]").forEach(cb => cb.checked = false);
+    majOuvrir(); grille(box, count); majVoir();
+  });
+  // pied du panneau : sur téléphone, « Voir les N recettes » ferme le panneau et descend aux résultats
+  const voir = el("button", { class: "btn voir", type: "button" });
+  voir.addEventListener("click", () => montrer(false, true));
+  function majVoir() { const n = visibles().length; voir.textContent = n ? `Voir ${n > 1 ? "les " + n + " recettes" : "la recette"}` : "Aucune recette"; }
+  if (mobile.matches) side.append(el("div", { class: "filters-pied" }, reset, voir));
+  else side.append(reset);
+  q.oninput = () => { grille(box, count); majVoir(); };
+  const resultats = el("section", { "aria-label": "Recettes", style: "scroll-margin-top:16px" }, count, box);
   app.replaceChildren(
     el("section", { class: "intro" }, el("h1", { text: "Les recettes qu'on se transmet" }), el("p", { text: "Les plats de la maison réunis pour que tu les refasses à ton tour. Et pour que tu aies toujours le souvenir de maman ❤️" })),
     terre(),
-    el("div", { class: "home" }, ouvrir, side, el("section", { "aria-label": "Recettes" }, count, box))
+    el("div", { class: "home" }, ouvrir, side, voile, resultats)
   );
-  grille(box, count);
+  grille(box, count); majVoir();
+  montrer(filtresOuverts && !mobile.matches);
   document.title = "Recettes";
 }
 function fiche(r) {
@@ -2212,6 +2249,7 @@ document.addEventListener("visibilitychange", async () => {
 function route() {
   const r = RECETTES.find(x => x.id === location.hash.slice(1));
   if (!r) eveilStop();
+  document.documentElement.classList.remove("panneau-ouvert");
   r ? fiche(r) : accueil();
 }
 window.addEventListener("hashchange", route);
