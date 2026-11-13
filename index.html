@@ -1,4 +1,17 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Recettes</title>
+<!-- application sur téléphone : « Ajouter à l'écran d'accueil » -->
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="logo/icone-192.png" type="image/png">
+<link rel="apple-touch-icon" href="logo/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Recettes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1D1A1C" media="(prefers-color-scheme: dark)">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gochi+Hand&display=swap">
@@ -187,6 +200,43 @@ footer{margin-top:64px;padding-top:18px;border-top:1px solid var(--line);font-si
   .deco .t4{bottom:-8px;right:0}
 }
 @media print{.deco{display:none}}
+
+/* barre au-dessus de la fiche : retour + écran allumé */
+.fiche-bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 16px}
+.eveil{display:inline-flex;white-space:nowrap;align-items:center;gap:8px;font:inherit;font-weight:700;font-size:14px;padding:7px 16px;border-radius:999px;border:1.5px solid var(--accent);background:var(--bg);color:var(--accent-strong);cursor:pointer}
+.eveil[aria-pressed="true"]{background:var(--accent);color:var(--on-accent)}
+
+/* téléphone et application installée */
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{padding-left:max(16px,env(safe-area-inset-left));padding-right:max(16px,env(safe-area-inset-right));padding-bottom:calc(56px + env(safe-area-inset-bottom))}
+a,button,input,label{-webkit-tap-highlight-color:transparent}
+@media (max-width:600px){
+  .top{gap:12px;padding-block:14px}
+  .logo{flex-basis:100%;gap:12px}
+  .logo img{width:84px}
+  .logo b{font-size:34px}
+  .logo small{font-size:16px;margin-top:2px}
+  .search{flex-basis:100%;max-width:none}
+  .search input{font-size:16px} /* 16 px : l'iPhone ne zoome pas quand on tape */
+  .intro{padding-block:20px 16px}
+  .back{margin-block:14px}
+  .ingr{padding:20px}
+  .ingr ul,.prep ol{font-size:17px}
+  .prep ol{gap:16px}
+  footer{margin-top:40px}
+}
+@media (display-mode: standalone){
+  body{padding-top:env(safe-area-inset-top)}
+  /* dans l'application, la barre retour reste en haut pendant qu'on cuisine */
+  .fiche-bar{position:sticky;top:env(safe-area-inset-top);z-index:4;background:var(--bg);border-bottom:1px solid var(--line);margin-inline:-16px;padding-inline:16px}
+  .fiche-bar .back{margin-block:10px}
+}
+@media (display-mode: standalone) and (max-width:600px){
+  /* en-tête réduit : petit logo, titre sur une ligne */
+  .logo img{width:52px}
+  .logo b{font-size:28px}
+  .logo small{display:none}
+}
 </style>
 
 <div class="wrap">
@@ -2121,8 +2171,18 @@ function fiche(r) {
     prep.append(el("div", { class: "video" }, el("h3", { text: "La vidéo" }), lien, p));
   }
   if (r.source) { const p = el("p", { class: "source", text: "Recette d'origine : " }); p.append(el("a", { href: r.source.url, target: "_blank", rel: "noopener", text: r.source.nom })); prep.append(p); }
+  const bar = el("div", { class: "fiche-bar" }, el("a", { class: "back", href: "#accueil", text: "← Toutes les recettes" }));
+  if ("wakeLock" in navigator) {
+    // pendant qu'on cuisine : le téléphone ne se met pas en veille
+    const b = el("button", { class: "eveil", type: "button", "aria-pressed": String(!!eveil), text: "Garder l'écran allumé" });
+    b.onclick = async () => {
+      if (eveil) { eveilStop(); b.setAttribute("aria-pressed", "false"); return; }
+      try { eveil = await navigator.wakeLock.request("screen"); b.setAttribute("aria-pressed", "true"); } catch (_) {}
+    };
+    bar.append(b);
+  }
   app.replaceChildren(
-    el("a", { class: "back", href: "#accueil", text: "← Toutes les recettes" }),
+    bar,
     el("article", {},
       el("div", { class: "hero" }, pic(r),
         el("div", { class: "hero-text" }, deco(r, "titre"), el("h1", { text: r.titre }), el("p", { class: "lead", text: r.intro }),
@@ -2133,11 +2193,28 @@ function fiche(r) {
   requestAnimationFrame(ajusteDeco);
   window.scrollTo(0, 0);
 }
+// écran allumé (Wake Lock) : relâché en quittant la fiche, repris au retour dans l'application
+let eveil = null;
+function eveilStop() { if (eveil) { eveil.release().catch(() => {}); eveil = null; } }
+document.addEventListener("visibilitychange", async () => {
+  if (document.visibilityState === "visible" && eveil && eveil.released) {
+    try { eveil = await navigator.wakeLock.request("screen"); } catch (_) { eveil = null; }
+  }
+});
 function route() {
   const r = RECETTES.find(x => x.id === location.hash.slice(1));
+  if (!r) eveilStop();
   r ? fiche(r) : accueil();
 }
 window.addEventListener("hashchange", route);
 route();
+
+// application hors connexion : seulement sur le site public (pas dans l'aperçu Claude)
+if ("serviceWorker" in navigator && /github\.io$|^localhost$|^127\.0\.0\.1$/.test(location.hostname)) {
+  navigator.serviceWorker.register("sw.js").then(() => navigator.serviceWorker.ready).then(reg => {
+    const photos = [...new Set(RECETTES.flatMap(r => [r.photo, r.video && r.video.image]).filter(p => typeof p === "string" && !/^https?:/.test(p)))];
+    reg.active && reg.active.postMessage({ type: "photos", liste: photos });
+  }).catch(() => {});
+}
 </script>
 
