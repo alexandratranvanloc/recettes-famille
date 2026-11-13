@@ -96,6 +96,9 @@ a{color:var(--accent-strong)}
 .card .btn{font-size:13.5px;padding:6px 18px}
 @media (max-width:460px){.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:24px 14px}}
 .card .pic{width:100%}
+.pic-lien{display:block;width:100%;border-radius:14px;transition:transform .15s}
+.pic-lien:hover{transform:scale(1.02)}
+.pic-lien:active{transform:scale(.98)}
 .card h2{font-family:var(--display);font-weight:400;font-size:19px;line-height:1.2;color:var(--title);margin:0;text-wrap:balance}
 .btn{display:inline-block;font-family:var(--body);font-weight:700;font-size:15px;text-decoration:none;background:var(--accent);color:var(--on-accent);padding:9px 30px;border-radius:999px;border:0;cursor:pointer}
 .btn:hover{background:var(--accent-strong)}
@@ -1859,6 +1862,10 @@ function pic(r) {
   else d.append(el("div", { class: "ph", html: ICONS.plat + "<span>Photo à venir</span>" }));
   return d;
 }
+// photo cliquable : ouvre la recette (le bouton « Voir la recette » reste le lien pour le clavier)
+function picLien(r) {
+  return el("a", { class: "pic-lien", href: "#" + r.id, tabindex: "-1", "aria-hidden": "true" }, pic(r));
+}
 function visibles() {
   const mots = sansAccent(q.value.trim()).split(/\s+/).filter(Boolean);
   return RECETTES.filter(r => {
@@ -1874,7 +1881,7 @@ function grille(box, count) {
   if (!list.length) { box.append(el("p", { class: "empty", text: "Aucune recette ne correspond. Décoche un filtre ou change la recherche." })); return; }
   for (const r of list) {
     const a = el("a", { class: "btn", href: "#" + r.id, text: "Voir la recette" });
-    box.append(el("article", { class: "card" }, pic(r), el("h2", { text: r.titre }), a));
+    box.append(el("article", { class: "card" }, picLien(r), el("h2", { text: r.titre }), a));
   }
 }
 /* ---------- La Terre : origine des plats et recette du jour ---------- */
@@ -1896,7 +1903,7 @@ function terre() {
     lancer.disabled = false; lancer.textContent = "Fais tourner la Terre";
     carte.replaceChildren(
       el("p", { class: "eyebrow", text: titre }),
-      el("div", { class: "jour-r" }, pic(r),
+      el("div", { class: "jour-r" }, picLien(r),
         el("div", { class: "jour-t" }, el("h2", { text: r.titre }),          el("a", { class: "btn", href: "#" + r.id, text: "Voir la recette" }))),
       el("div", { class: "jour-jeu" }, el("p", { text: "Envie d'autre chose ?" }), lancer));
   }
