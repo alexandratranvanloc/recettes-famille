@@ -1812,8 +1812,8 @@ const RECETTES = [
       "Coupe les escalopes en cubes dans un saladier, verse la marinade dessus et mélange bien. Couvre de film alimentaire et laisse 1 heure au réfrigérateur.",
       "Mets les oignons, l'ail, le gingembre épluché et les noix de cajou dans le bol. Mixe 5 secondes à vitesse 5, puis racle les parois avec la spatule.",
       "Ajoute la pulpe de tomate, la purée de piment et le lait de coco.",
-      "Installe le panier de cuisson et mets-y le poulet avec toute sa marinade. Ferme et cuis 20 minutes en température Varoma, vitesse cuillère.",
-      "Retire le panier et verse son contenu dans le bol avec la spatule. Cuis encore 5 minutes à 100 °C, vitesse cuillère.",
+      "Installe le panier de cuisson et mets-y le poulet avec toute sa marinade. Ferme et cuis 20 minutes en température Varoma, sens inverse, vitesse cuillère.",
+      "Retire le panier et verse son contenu dans le bol avec la spatule. Cuis encore 5 minutes à 100 °C, sens inverse, vitesse cuillère.",
       "Sers sur du riz blanc, avec quelques feuilles de coriandre fraîche."
     ],
     secret: "La marinade fait tout : si tu as le temps, prépare-la le matin pour le soir, le poulet n'en sera que plus tendre et parfumé.",
@@ -1872,6 +1872,36 @@ const RECETTES = [
     ],
     secret: "La Maïzena n'est là que pour épaissir la sauce : ajoute-la si tu l'aimes bien nappante. Goûte avant de saler, le cube de bouillon et la moutarde salent déjà.",
     source: { nom: "Cookomix", url: "https://www.cookomix.com/recettes/filet-mignon-moutarde-thermomix/" }
+},
+  {
+    id: "tomates-farcies",
+    origine: { pays: "France", lieu: "Provence", lat: 43.53, lon: 5.45, iso: "250" }, // où flécher le plat sur la Terre
+    titre: "Tomates farcies",
+    deco: ["tomate", "viande", "oeuf", "pain", "ail", "oignon", "feuille"], // petits dessins en fond de fiche
+    intro: "Le grand classique de l'été : des tomates garnies d'une farce au porc, au bœuf et au jambon cru, cuites doucement au four dans leur jus.",
+    // photo : à faire (trois essais fal.ai ratés le 23/11/2026)
+    personnes: 6,
+    temps: "20 min de préparation, 1 h 10 de cuisson",
+    difficulte: "Facile",
+    type: "Plats",
+    occasion: ["Tous les jours"],
+    cuisson: ["Thermomix", "Four"],
+    ingredients: [
+      { liste: [[6, "grosse tomate bien ferme", "grosses tomates bien fermes"]] },
+      { titre: "Pour la farce :", liste: [[3, "échalote", "échalotes"], [2, "gousse d'ail", "gousses d'ail"], [15, "g d'huile d'olive"], [0.5, "cuillère à café de thym", "cuillères à café de thym"], [60, "g de pain rassis"], [100, "g de lait demi-écrémé"], [250, "g de chair à saucisse"], [250, "g de bœuf haché"], [60, "g de jambon cru fumé"], [1, "œuf", "œufs"], [10, "brin de persil frais", "brins de persil frais"], "½ cuillère à café de sel", "2 pincées de poivre", "Un peu de beurre pour le plat"] }
+    ],
+    etapes: [
+      "Préchauffe le four à 180 °C.",
+      "Coupe un chapeau sur chaque tomate, du côté opposé à la tige. Creuse-les à la petite cuillère sans percer la peau et garde la chair. Sale l'intérieur et retourne-les sur un plat pour qu'elles s'égouttent.",
+      "Mets les échalotes et l'ail épluchés dans le bol. Mixe 5 secondes à vitesse 5, puis racle les parois avec la spatule.",
+      "Ajoute l'huile d'olive, le thym et la chair des tomates. Cuis 10 minutes à 100 °C, sens inverse, vitesse 1.",
+      "Fais chauffer le lait, trempe le pain coupé en morceaux dedans, presse-le et ajoute-le dans le bol.",
+      "Ajoute la chair à saucisse, le bœuf haché, le jambon cru coupé en morceaux, l'œuf, les feuilles de persil ciselées, le sel et le poivre. Mixe 8 secondes à vitesse 5, sans le gobelet, en t'aidant de la spatule.",
+      "Remplis les tomates de farce en la laissant dépasser d'environ 1 cm, et pose les chapeaux dessus. Range-les dans un plat beurré.",
+      "Enfourne 1 heure à 180 °C, en arrosant de temps en temps les tomates avec leur jus de cuisson.",
+      "Laisse-les tiédir un peu avant de servir, avec du riz."
+    ],
+    source: { nom: "Cookomix", url: "https://www.cookomix.com/recettes/tomates-farcies-thermomix/" }
   }
 ];
 
