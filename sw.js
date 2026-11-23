@@ -3,7 +3,7 @@
 // - le reste (photos, scripts, logo, police) : cache d'abord, rempli au fur et à mesure ;
 // - après l'installation, toutes les photos sont téléchargées en arrière-plan pour cuisiner sans connexion.
 // Changer VERSION vide les anciens caches.
-const VERSION = "recettes-v2";
+const VERSION = "recettes-v3";
 const BASE = [
   "./", "index.html", "manifest.webmanifest",
   "lib/d3.min.js", "lib/topojson.min.js",
